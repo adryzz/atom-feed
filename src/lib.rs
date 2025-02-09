@@ -9,6 +9,7 @@ use quick_xml::{
 #[derive(Debug, Clone, Default)]
 pub struct AtomFeed<'a, Tz: TimeZone> {
     generator: Option<Generator<'a>>,
+    published: Option<DateTime<Tz>>,
     updated: Option<DateTime<Tz>>,
     uri: Option<&'a str>,
     self_uri: Option<&'a str>,
@@ -32,6 +33,7 @@ where
                 generator: None,
                 uri: None,
                 self_uri: None,
+                published: None,
                 updated: None,
                 id: None,
                 subtitle: None,
@@ -68,6 +70,11 @@ where
 
     pub fn rights(mut self, rights: &'a str) -> Self {
         self.0.rights = Some(rights);
+        self
+    }
+
+    pub fn published(mut self, published: DateTime<Tz>) -> Self {
+        self.0.published = Some(published);
         self
     }
 
@@ -121,6 +128,11 @@ where
             tag.push_attribute(("rel", "alternate"));
             tag.push_attribute(("type", "text/html"));
             writer.write_event(Event::Empty(tag))?;
+        }
+
+        if let Some(published) = &self.published {
+            writer.create_element("published")
+            .write_text_content(BytesText::new(&published.to_rfc3339()))?;
         }
 
         if let Some(updated) = &self.updated {
