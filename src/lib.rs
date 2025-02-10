@@ -25,23 +25,24 @@ pub struct AtomFeedBuilder<'a, Tz: TimeZone>(AtomFeed<'a, Tz>);
 
 impl<'a, Tz> AtomFeedBuilder<'a, Tz>
 where
-    Tz: TimeZone
+    Tz: TimeZone,
 {
-    pub fn new<T>(title: T) -> Self where T : Into<Cow<'a, str>> {
-        Self {
-            0: AtomFeed {
-                title: title.into(),
-                generator: None,
-                uri: None,
-                self_uri: None,
-                published: None,
-                updated: None,
-                id: None,
-                subtitle: None,
-                rights: None,
-                entries: vec![],
-            },
-        }
+    pub fn new<T>(title: T) -> Self
+    where
+        T: Into<Cow<'a, str>>,
+    {
+        Self(AtomFeed {
+            title: title.into(),
+            generator: None,
+            uri: None,
+            self_uri: None,
+            published: None,
+            updated: None,
+            id: None,
+            subtitle: None,
+            rights: None,
+            entries: vec![],
+        })
     }
 
     pub fn generator<T>(mut self, generator: Generator<'a>) -> Self {
@@ -49,27 +50,42 @@ where
         self
     }
 
-    pub fn uri<T>(mut self, uri: T) -> Self where T : Into<Cow<'a, str>> {
+    pub fn uri<T>(mut self, uri: T) -> Self
+    where
+        T: Into<Cow<'a, str>>,
+    {
         self.0.uri = Some(uri.into());
         self
     }
 
-    pub fn self_uri<T>(mut self, uri: T) -> Self where T : Into<Cow<'a, str>> {
+    pub fn self_uri<T>(mut self, uri: T) -> Self
+    where
+        T: Into<Cow<'a, str>>,
+    {
         self.0.self_uri = Some(uri.into());
         self
     }
 
-    pub fn id<T>(mut self, id: T) -> Self where T : Into<Cow<'a, str>> {
+    pub fn id<T>(mut self, id: T) -> Self
+    where
+        T: Into<Cow<'a, str>>,
+    {
         self.0.id = Some(id.into());
         self
     }
 
-    pub fn subtitle<T>(mut self, subtitle: T) -> Self where T : Into<Cow<'a, str>> {
+    pub fn subtitle<T>(mut self, subtitle: T) -> Self
+    where
+        T: Into<Cow<'a, str>>,
+    {
         self.0.subtitle = Some(subtitle.into());
         self
     }
 
-    pub fn rights<T>(mut self, rights: T) -> Self where T : Into<Cow<'a, str>> {
+    pub fn rights<T>(mut self, rights: T) -> Self
+    where
+        T: Into<Cow<'a, str>>,
+    {
         self.0.rights = Some(rights.into());
         self
     }
@@ -132,8 +148,9 @@ where
         }
 
         if let Some(published) = &self.published {
-            writer.create_element("published")
-            .write_text_content(BytesText::new(&published.to_rfc3339()))?;
+            writer
+                .create_element("published")
+                .write_text_content(BytesText::new(&published.to_rfc3339()))?;
         }
 
         if let Some(updated) = &self.updated {
@@ -175,7 +192,10 @@ pub struct Generator<'a> {
 }
 
 impl<'a> Generator<'a> {
-    pub fn new<T>(name: T) -> Self where T : Into<Cow<'a, str>> {
+    pub fn new<T>(name: T) -> Self
+    where
+        T: Into<Cow<'a, str>>,
+    {
         Self {
             name: name.into(),
             uri: None,
@@ -183,12 +203,18 @@ impl<'a> Generator<'a> {
         }
     }
 
-    pub fn uri<T>(mut self, uri: T) -> Self where T : Into<Cow<'a, str>> {
+    pub fn uri<T>(mut self, uri: T) -> Self
+    where
+        T: Into<Cow<'a, str>>,
+    {
         self.uri = Some(uri.into());
         self
     }
 
-    pub fn version<T>(mut self, version: T) -> Self where T : Into<Cow<'a, str>> {
+    pub fn version<T>(mut self, version: T) -> Self
+    where
+        T: Into<Cow<'a, str>>,
+    {
         self.version = Some(version.into());
         self
     }
@@ -219,7 +245,10 @@ pub struct Person<'a> {
 }
 
 impl<'a> Person<'a> {
-    pub fn new<T>(name: T) -> Self where T : Into<Cow<'a, str>> {
+    pub fn new<T>(name: T) -> Self
+    where
+        T: Into<Cow<'a, str>>,
+    {
         Self {
             name: name.into(),
             uri: None,
@@ -227,12 +256,18 @@ impl<'a> Person<'a> {
         }
     }
 
-    pub fn uri<T>(mut self, uri: T) -> Self where T : Into<Cow<'a, str>> {
+    pub fn uri<T>(mut self, uri: T) -> Self
+    where
+        T: Into<Cow<'a, str>>,
+    {
         self.uri = Some(uri.into());
         self
     }
 
-    pub fn email<T>(mut self, email: T) -> Self where T : Into<Cow<'a, str>> {
+    pub fn email<T>(mut self, email: T) -> Self
+    where
+        T: Into<Cow<'a, str>>,
+    {
         self.email = Some(email.into());
         self
     }
@@ -276,7 +311,10 @@ impl<'a, Tz> AtomEntry<'a, Tz>
 where
     Tz: TimeZone,
 {
-    pub fn new<T>(title: T) -> Self where T : Into<Cow<'a, str>> {
+    pub fn new<T>(title: T) -> Self
+    where
+        T: Into<Cow<'a, str>>,
+    {
         Self {
             title: title.into(),
             uri: None,
@@ -291,12 +329,18 @@ where
         }
     }
 
-    pub fn uri<T>(mut self, uri: T) -> Self where T : Into<Cow<'a, str>> {
+    pub fn uri<T>(mut self, uri: T) -> Self
+    where
+        T: Into<Cow<'a, str>>,
+    {
         self.uri = Some(uri.into());
         self
     }
 
-    pub fn id<T>(mut self, id: T) -> Self where T : Into<Cow<'a, str>> {
+    pub fn id<T>(mut self, id: T) -> Self
+    where
+        T: Into<Cow<'a, str>>,
+    {
         self.id = Some(id.into());
         self
     }
@@ -326,12 +370,18 @@ where
         self
     }
 
-    pub fn content<T>(mut self, content: T) -> Self where T : Into<Cow<'a, str>> {
+    pub fn content<T>(mut self, content: T) -> Self
+    where
+        T: Into<Cow<'a, str>>,
+    {
         self.content = Some(content.into());
         self
     }
 
-    pub fn summary<T>(mut self, summary: T) -> Self where T : Into<Cow<'a, str>> {
+    pub fn summary<T>(mut self, summary: T) -> Self
+    where
+        T: Into<Cow<'a, str>>,
+    {
         self.summary = Some(summary.into());
         self
     }
